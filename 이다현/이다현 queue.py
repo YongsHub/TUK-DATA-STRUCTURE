@@ -13,7 +13,7 @@ for i in range(num):
     fun = sys.stdin.readline().split()
     #input로 입력받으면 시간초과됨.
     if fun[0] == "push":
-        queue.insert(0, string[1])
+        queue.insert(0, fun[1])
 
     elif fun[0] == "pop":
         if len(queue) != 0:print(queue.pop())
