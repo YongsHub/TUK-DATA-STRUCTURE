@@ -1,0 +1,63 @@
+『이중 연결 리스트(doubly linked list)』
+	: 앞 노드와 뒤 노드를 가리키는 링크가 있음(링크 2개-양방향)
+							      
+< 이중 연결 리스트 노드의 구조 >          
+				        노드
+			=>       [ llink | data | rlink ]
+
+	> 링크 필드 2개 (llink, rlink) & 데이터 필드 1개 (data)
+	> lLink(좌) 필드 : 왼쪽 노드와 연결하는 포인터
+	> rLink(우) 필드 : 오른쪽 노드와 연결하는 포인터
+
+struct NODE //구조체 선언		struct NODE* makenode(int value) // 노드 생성 함수
+{				{
+    struct NODE* llink;		    struct NODE *node = (struct NODE*)malloc(sizeof(struct NODE));
+    int data;			    node->llink = NULL;
+    struct NODE* rlink;		    node->data = value
+};				    node->rlink = NULL;
+struct NODE* head;		    return node;
+struct NODE* tail;			}	
+--------------------------------------------------------------------------------------------------------------------------
+< 이중 연결 리스트 삽입 >
+
+	> head 포인터 → 맨 앞 노드		> llink → 바로 앞 노드
+	> tail    포인터 → 맨 뒤 노드		> rlink → 바로 뒤 노드
+
+	#새로운 데이터를 가진 노드(new) 삽입
+		1. (tail의 llink가 가리키는) 전 rlink → new노드의 llink
+		2. new노드의 llink → (tail의 llink가 가르키는) 전 rlink
+
+		3. tail의 llink → new노드의 rlink
+		4. new노드의 rlink → tail의 llink
+
+void push_back(int value) // 뒤로부터 노드를 추가하는 함수
+{ 
+    struct NODE* newnode = makenode(value);
+    struct NODE* p;
+    p = tail;
+    p->llink->rlink = newnode;
+    newnode->llink = p->llink;
+    p->llink = newnode;
+    newnode->rlink = p;
+}
+---------------------------------------------------------------------------------------------------------------------------
+< 이중 연결 리스트 삭제 >
+	1. (삭제할 노드의 llink가 가리키는) 전 rlink → (삭제할 노드의 rlink가 가리키는) llink
+	2. (삭제할 노드의 rlink가 가리키는) llink → (삭제할 노드의 llink가 가리키는) 전 rlink
+	3. 삭제된 노드의 메모리 해제 - free
+	 
+void removenode(int value)
+{
+    struct NODE* p;
+    p = head->rlink;
+    while(p->rlink != tail){
+        if(p->data == value){
+            p->rlink->llink = p->llink;
+            p->llink->rlink = p->rlink;
+            free(p);
+            return;
+        }
+        p = p->rlink;
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------

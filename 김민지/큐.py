@@ -30,6 +30,3 @@ for i in range(n):
             print(-1)
         else:
             print(queue[-1])
-    else:
-        print("명령이 잘못되었습니다.")
-        i-=1           #고치고 싶은 점: 명령이 잘못되었을 경우 i를 하나 뒤로 하고 싶은데 안돼요...
