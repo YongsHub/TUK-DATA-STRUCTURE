@@ -1,3 +1,4 @@
+#문자열 폭발
 
 string = input()
 bomb = input()
